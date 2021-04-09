@@ -5,6 +5,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -35,7 +36,7 @@ class BurgerBuilder extends Component {
                 return sum + el;
             }, 0);
         this.setState({ purchasable: sum > 0 });
-    }
+    };
 
     addIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
@@ -49,7 +50,7 @@ class BurgerBuilder extends Component {
         const newPrice = oldPrice + priceAddition;
         this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
         this.updatePurchaseState(updatedIngredients);
-    }
+    };
 
     removeIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
@@ -66,19 +67,36 @@ class BurgerBuilder extends Component {
         const newPrice = oldPrice - priceDeduction;
         this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
         this.updatePurchaseState(updatedIngredients);
-    }
+    };
 
     purchaseHandler = () => {
         this.setState({ purchasing: true });
-    }
+    };
 
     purchaseCancelHandler = () => {
         this.setState({ purchasing: false });
-    }
+    };
 
     purchaseContinueHandler = () => {
-        alert('You continue!');
-    }
+        // alert('You continue!');
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice,
+            customer: {
+                name: 'Luigi Mountain',
+                address: {
+                    street: 'Paradise 3rd',
+                    zipCode: '41351',
+                    country: 'Germany'
+                },
+                email: 'luigi@gmail.com'
+            },
+            deliveryMethod: 'fastest'
+        };
+        axios.post('/orders.json', order)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    };
 
     render() {
         const disabledInfo = {
