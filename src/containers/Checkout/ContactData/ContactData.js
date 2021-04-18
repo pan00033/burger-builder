@@ -196,7 +196,7 @@ class ContactData extends Component {
 const mapStateToProps = state => {
     return {
         ings: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice.toFixed(2) //fixed the price to be 2 decimal places in firebase DB
     };
 };
 
