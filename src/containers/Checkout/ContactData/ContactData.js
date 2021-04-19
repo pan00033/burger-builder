@@ -189,9 +189,9 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice.toFixed(2), //fixed the price to be 2 decimal places in firebase DB
-        loading: state.loading
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice.toFixed(2), //fixed the price to be 2 decimal places in firebase DB
+        loading: state.order.loading
     };
 };
 
