@@ -126,8 +126,27 @@ class Auth extends Component {
         let errorMessage = null;
 
         if (this.props.error) {
+            let message = '';
+            if (this.props.error.message === 'EMAIL_EXISTS') {
+                message = 'The provided email address already exists! Try another one!';
+            }
+            else if (this.props.error.message === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+                message = 'We have blocked all requests from this device due to unusual activity. Try again later.';
+            }
+            else if (this.props.error.message === 'OPERATION_NOT_ALLOWED') {
+                message = 'Password sign-in is disabled for this project.';
+            }
+            else if (this.props.error.message === 'INVALID_EMAIL' || this.props.error.message === 'EMAIL_NOT_FOUND') {
+                message = 'The provided email address is incorrect!';
+            }
+            else if (this.props.error.message === 'INVALID_PASSWORD') {
+                message = 'The provided password is incorrect!';
+            }
+            else if (this.props.error.message === 'USER_DISABLED') {
+                message = 'The user account has been disabled!';
+            }
             errorMessage = (
-                <p>{this.props.error.message}</p>
+                <p style={{ color: 'red', textTransform: 'uppercase' }}><strong>{message}</strong></p>
             );
         }
 
